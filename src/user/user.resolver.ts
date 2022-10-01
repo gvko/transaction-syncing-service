@@ -1,13 +1,13 @@
-import { Query, Resolver } from '@nestjs/graphql';
-import { UserService } from './user.service';
+import { Context, Query, Resolver } from '@nestjs/graphql';
+import { UserEntity } from './user.entity';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from '../auth/auth.guard';
 
 @Resolver()
 export class UserResolver {
-  constructor(private userService: UserService) {
-  }
-
-  @Query(() => Boolean)
-  me(): boolean {
-    return true;
+  @Query(() => UserEntity)
+  @UseGuards(new AuthGuard())
+  auth(@Context('user') user: UserEntity): UserEntity {
+    return user;
   }
 }

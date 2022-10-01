@@ -12,6 +12,7 @@ import { AuthModule } from './auth/auth.module';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: 'schema.gql',
+      context: ({ req }) => ({ headers: req.headers }),
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
