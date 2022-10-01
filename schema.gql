@@ -5,3 +5,8 @@
 type Query {
   getUser: Boolean!
 }
+
+type Mutation {
+  signup: Boolean!
+  login: Boolean!
+}

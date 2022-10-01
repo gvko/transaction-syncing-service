@@ -10,8 +10,10 @@ services:
       - 3000
       - 5858
     tty: true
+    volumes:
+      - './dist:/node/app/dist'
     environment:
-      - NODE_ENV=local
+      - NODE_ENV=docker-local
     container_name: aave
     depends_on:
       - db

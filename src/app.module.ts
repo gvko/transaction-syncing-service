@@ -5,6 +5,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import { UserModule } from './user/user.module';
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
+      host: process.env.NODE_ENV === 'docker-local' ? 'aave-db' : 'localhost',
       port: 5432,
       username: 'chewbacca',
       password: 'rawr',
@@ -22,6 +23,7 @@ import { UserModule } from './user/user.module';
       entities: ['dist/**/*.model.js'],
       synchronize: false,
     }),
+    AuthModule,
     UserModule,
   ],
   controllers: [AppController],
