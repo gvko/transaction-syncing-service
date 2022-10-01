@@ -7,7 +7,8 @@ export class migrations1664648788315 implements MigrationInterface {
         "id" uuid not null default uuid_generate_v4(),
         "name" varchar(255) not null,
         "last_name" varchar(255) null,
-        "wallet_address" varchar(255) not null,
+        "wallet_address" varchar(42) not null UNIQUE,
+        "dob" DATE,
         "created_at" timestamptz(0) not null default now(),
         "updated_at" timestamptz(0) not null default now()
         )

@@ -2,11 +2,26 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type UserEntity {
+  id: String!
+  name: String!
+  lastName: String!
+  dob: String!
+  walletAddress: String!
+}
+
 type Query {
   me: Boolean!
 }
 
 type Mutation {
   login(walletAddress: String!): String!
-  signup: Boolean!
+  signup(input: CreateUserInput!): UserEntity!
+}
+
+input CreateUserInput {
+  name: String!
+  lastName: String!
+  walletAddress: String!
+  dob: String!
 }
