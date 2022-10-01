@@ -1,5 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import {
+  BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
@@ -8,15 +9,15 @@ import {
 } from 'typeorm';
 
 @ObjectType()
-@Entity()
-export class UserModel {
+@Entity('users')
+export class UserEntity extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Field()
   @Column('varchar')
-  firstName: string;
+  name: string;
 
   @Field()
   @Column('varchar')
@@ -29,14 +30,4 @@ export class UserModel {
   @Field()
   @Column()
   walletAddress: string;
-
-  @Field()
-  @Column()
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @Field()
-  @Column()
-  @UpdateDateColumn()
-  updatedAt: Date;
 }

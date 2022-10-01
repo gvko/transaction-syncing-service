@@ -3,10 +3,10 @@
 # ------------------------------------------------------
 
 type Query {
-  getUser: Boolean!
+  me: Boolean!
 }
 
 type Mutation {
+  login(walletAddress: String!): String!
   signup: Boolean!
-  login: Boolean!
 }

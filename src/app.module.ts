@@ -20,7 +20,7 @@ import { AuthModule } from './auth/auth.module';
       username: 'chewbacca',
       password: 'rawr',
       database: 'kashyyyk',
-      entities: ['dist/**/*.model.js'],
+      entities: ['dist/**/*.entity.js'],
       synchronize: false,
     }),
     AuthModule,
