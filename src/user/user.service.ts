@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
 import { Repository } from 'typeorm';
-import { CreateUserInput } from './dto/create-user-input';
+import { CreateUserInput } from './dto/create-user-input.dto';
 
 @Injectable()
 export class UserService {
@@ -10,12 +10,14 @@ export class UserService {
   }
 
   async create(dto: CreateUserInput): Promise<UserEntity> {
-    return this.userEntity.create({
-      name: dto.name,
-      lastName: dto.lastName,
-      walletAddress: dto.walletAddress.toLowerCase(),
-      dob: dto.dob,
-    }).save();
+    return this.userEntity
+      .create({
+        name: dto.name,
+        lastName: dto.lastName,
+        walletAddress: dto.walletAddress.toLowerCase(),
+        dob: dto.dob,
+      })
+      .save();
   }
 
   async getByWalletAddress(walletAddress: string): Promise<UserEntity> {
