@@ -10,8 +10,17 @@ type UserEntity {
   walletAddress: String!
 }
 
+type EventEntity {
+  id: String!
+  fromAddress: String!
+  toAddress: String!
+  value: Float!
+  block: Float!
+}
+
 type Query {
   auth: UserEntity!
+  getEvent(block: Float!): EventEntity!
 }
 
 type Mutation {
