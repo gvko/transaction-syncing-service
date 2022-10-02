@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import * as jwt from 'jsonwebtoken';
+import { config } from '../config';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -29,8 +30,7 @@ export class AuthGuard implements CanActivate {
     }
 
     try {
-      // TODO: load JWT secret from env vars
-      return jwt.verify(token, 'secret');
+      return jwt.verify(token, config().auth.jwt.secret);
     } catch (err) {
       throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
     }
