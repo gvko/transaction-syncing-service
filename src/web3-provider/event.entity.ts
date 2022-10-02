@@ -17,10 +17,10 @@ export class EventEntity extends BaseEntity {
   toAddress: string;
 
   @Field()
-  @Column('int')
-  value: number;
+  @Column('varchar')
+  value: string;
 
   @Field()
-  @Column('int')
-  block: number;
+  @Column('varchar')
+  block: string;
 }
