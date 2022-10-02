@@ -1,5 +1,12 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @ObjectType()
 @Entity('events')
@@ -23,4 +30,12 @@ export class EventEntity extends BaseEntity {
   @Field()
   @Column('varchar')
   block: string;
+
+  @Field()
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date = new Date();
+
+  @Field()
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date = new Date();
 }

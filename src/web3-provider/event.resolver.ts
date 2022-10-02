@@ -8,7 +8,7 @@ export class EventResolver {
   }
 
   @Query(() => EventEntity)
-  async getEvent(@Args('block') block: number): Promise<EventEntity[]> {
+  async getEvents(@Args('block') block: number): Promise<EventEntity[]> {
     return this.web3ProviderService.getEventsByBlock(block);
   }
 }

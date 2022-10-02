@@ -1,9 +1,9 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import {
   BaseEntity,
-  Column,
+  Column, CreateDateColumn,
   Entity,
-  PrimaryGeneratedColumn, Unique,
+  PrimaryGeneratedColumn, Unique, UpdateDateColumn,
 } from 'typeorm';
 
 @ObjectType()
@@ -28,4 +28,12 @@ export class UserEntity extends BaseEntity {
   @Field()
   @Column({ type: 'varchar', name: 'wallet_address', length: 42, unique: true })
   walletAddress: string;
+
+  @Field()
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date = new Date();
+
+  @Field()
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date = new Date();
 }

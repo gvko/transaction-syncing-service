@@ -8,19 +8,28 @@ type UserEntity {
   lastName: String!
   dob: String!
   walletAddress: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 type EventEntity {
   id: String!
   fromAddress: String!
   toAddress: String!
-  value: Float!
-  block: Float!
+  value: String!
+  block: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type Query {
   auth: UserEntity!
-  getEvent(block: Float!): EventEntity!
+  getEvents(block: Float!): EventEntity!
 }
 
 type Mutation {
