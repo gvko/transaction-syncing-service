@@ -1,13 +1,9 @@
 import { Module } from '@nestjs/common';
-import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { config } from './config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserModule } from './user/user.module';
-import { AuthModule } from './auth/auth.module';
 import { Web3ProviderModule } from './web3-provider/web3-provider.module';
 
 @Module({
@@ -15,26 +11,19 @@ import { Web3ProviderModule } from './web3-provider/web3-provider.module';
     ConfigModule.forRoot({
       load: [config],
     }),
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      autoSchemaFile: 'schema.gql',
-      context: ({ req }) => ({ headers: req.headers }),
-    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.NODE_ENV === 'docker-local' ? 'aave-db' : 'localhost',
+      host: process.env.NODE_ENV === 'docker-local' ? 'coinshift-db' : 'localhost',
       port: 5432,
       username: 'chewbacca',
       password: 'rawr',
-      database: 'kashyyyk',
+      database: 'coinshift',
       entities: ['dist/**/*.entity.js'],
       synchronize: false,
       migrations: ['dist/migrations/*{.ts,.js}'],
       migrationsTableName: 'migrations',
       migrationsRun: true,
     }),
-    AuthModule,
-    UserModule,
     Web3ProviderModule,
   ],
   controllers: [AppController],

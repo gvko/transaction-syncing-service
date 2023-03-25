@@ -28,7 +28,6 @@ export class Web3ProviderService {
     this.eventInterfaceThreeIndexed = new ethers.utils.Interface(eventAbiThreeIndexed);
 
     this.eventFilters = {
-      contractAddress: config().ethereumNode.contractAddress,
       topics: [ethers.utils.id('Transfer(address,address,uint256)')],
     };
 

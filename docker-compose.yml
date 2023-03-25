@@ -1,7 +1,7 @@
 version: '3'
 services:
   # Server
-  api:
+  backend:
     build: .
     ports:
       - '13000:5858'
@@ -14,7 +14,7 @@ services:
       - './dist:/node/app/dist'
     environment:
       - NODE_ENV=docker-local
-    container_name: aave
+    container_name: backend
     depends_on:
       - db
     networks:
@@ -30,12 +30,12 @@ services:
     environment:
       POSTGRES_USER: chewbacca
       POSTGRES_PASSWORD: rawr
-      POSTGRES_DB: kashyyyk
-    container_name: aave-db
+      POSTGRES_DB: coinshift
+    container_name: coinshift-db
     networks:
       - default
 
 networks:
   default:
     external:
-      name: aave-code-test_default
+      name: coinshift_default
