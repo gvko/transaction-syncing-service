@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { TransactionEntity } from './transaction.entity';
 import { CreateTransactionInput } from './dto/create-transaction-input.dto';
+import { CHAIN } from '../common/chain';
 
 @Injectable()
 export class TransactionService {
@@ -17,11 +18,14 @@ export class TransactionService {
 
   /**
    * Start transactions syncing and store parsed transactions into the DB
+   *
+   * @param {CHAIN} chain
    */
-  async getMaxBlockStored(): Promise<number> {
+  async getMaxBlockStored(chain: CHAIN): Promise<number> {
     const queryResult = await this.transactionEntity
       .createQueryBuilder('transaction')
       .select('MAX(transaction.blockNumber)', 'maxBlockNumber')
+      .where('transaction.chain = :chain', { chain })
       .getRawOne();
     return queryResult.maxBlockNumber;
   }
