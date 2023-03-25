@@ -82,14 +82,4 @@ export class TransactionService {
 
     return response;
   }
-
-  /**
-   * Return the transactions for a given block, stored in the DB
-   *
-   * @param {number}  block
-   * @return  {Promise<TransactionEntity[]>}
-   */
-  async getTxsForBlock(block: number): Promise<TransactionEntity[]> {
-    return this.transactionEntity.find({ where: { blockNumber: block } });
-  }
 }

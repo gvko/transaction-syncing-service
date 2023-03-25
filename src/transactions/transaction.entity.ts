@@ -4,6 +4,7 @@ import {
   CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 import { CHAIN } from '../common/chain';
@@ -14,6 +15,9 @@ export class TransactionEntity extends BaseEntity {
   id: string;
 
   @Column('varchar')
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  @Unique('tx_hash_unique')
   hash: string;
 
   @Column({ type: 'integer', nullable: true })

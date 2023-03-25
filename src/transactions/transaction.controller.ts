@@ -1,11 +1,18 @@
-import { BadRequestException, Controller, Get, Query } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { TransactionService } from './transaction.service';
 import { CHAIN } from '../common/chain';
 import { TxsForAddressAndChainResult } from './types';
+import { Web3ProviderService } from '../web3-provider/web3-provider.service';
+import { IsString } from 'class-validator';
+
+class IndexTxsForAddressDto {
+  @IsString()
+  chain: CHAIN;
+}
 
 @Controller('transactions')
 export class TransactionController {
-  constructor(private txService: TransactionService) {
+  constructor(private txService: TransactionService, private web3Service: Web3ProviderService) {
   }
 
   @Get()
@@ -22,5 +29,10 @@ export class TransactionController {
       }
     }
     return this.txService.getTxsForAddressAndChain(addressesSplit, chainsSplit);
+  }
+
+  @Post(':address')
+  async indexTxsForAddress(@Param('address') address: string, @Body() txDto: IndexTxsForAddressDto): Promise<void> {
+    await this.web3Service.indexTxsForAddress(txDto.chain, address);
   }
 }

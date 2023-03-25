@@ -25,6 +25,7 @@
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/typeorm": "^9.0.1",
     "apollo-server-express": "^3.10.2",
+    "class-validator": "^0.14.0",
     "dotenv": "^16.0.3",
     "dotenv-flow": "^3.2.0",
     "env-var": "^7.3.0",

@@ -25,11 +25,11 @@ export class Web3ProviderService {
   }
 
   private async initSyncEth(): Promise<void> {
-    await this.initSync(CHAIN.ETHEREUM, this.providerEth);
+    await this.initSyncTxs(CHAIN.ETHEREUM, this.providerEth);
   }
 
   private async initSyncPolygon(): Promise<void> {
-    await this.initSync(CHAIN.POLYGON, this.providerPolygon);
+    await this.initSyncTxs(CHAIN.POLYGON, this.providerPolygon);
   }
 
   /**
@@ -38,7 +38,7 @@ export class Web3ProviderService {
    * @param {CHAIN} chain
    * @param {any}   provider
    */
-  private async initSync(chain: CHAIN, provider): Promise<void> {
+  private async initSyncTxs(chain: CHAIN, provider): Promise<void> {
     this.logger.log(`[${chain}] Initialize syncing of transactions for ${chain}`);
 
     let maxBlockNumberInDB = await this.txService.getMaxBlockStored(chain);
@@ -100,5 +100,20 @@ export class Web3ProviderService {
         nonce: tx.nonce,
       });
     }
+  }
+
+  async indexTxsForAddress(chain: CHAIN, address: string): Promise<void> {
+    const provider = chain === CHAIN.ETHEREUM ? this.providerEth : this.providerPolygon;
+
+    const pastTxs = await provider.eth.getPastTransactions({
+      fromBlock: 0,
+      toBlock: 'latest',
+      address: address,
+    });
+
+    console.log(pastTxs);
+    // TODO: subscribe to listen to incoming txs
+
+    // TODO: logic to stop listening to this address
   }
 }
