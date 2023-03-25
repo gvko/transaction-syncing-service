@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { config } from './config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { TransactionModule } from './transactions/transaction.module';
 import { Web3ProviderModule } from './web3-provider/web3-provider.module';
 
 @Module({
@@ -24,6 +25,7 @@ import { Web3ProviderModule } from './web3-provider/web3-provider.module';
       migrationsTableName: 'migrations',
       migrationsRun: true,
     }),
+    TransactionModule,
     Web3ProviderModule,
   ],
   controllers: [AppController],

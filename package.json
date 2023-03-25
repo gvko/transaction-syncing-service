@@ -28,7 +28,6 @@
     "dotenv": "^16.0.3",
     "dotenv-flow": "^3.2.0",
     "env-var": "^7.3.0",
-    "ethers": "^5.7.1",
     "pg": "^8.8.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",

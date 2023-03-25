@@ -5,6 +5,7 @@
 1. Create a file named `.env` in the root of the project dir
 2. Copy-paste the contents of the `.env.example` file into the `.env` file
 3. Replace the `<KEY>` value with the Alchemy secret URL key for your node instance.
+4. If you want to use a testnet instead of a mainnet (eg. Goerli, Sepolia, Mumbai), make sure to actually change the whole URL for WS and HTTP URLs. There is no need to create new env vars for the testnets - you just have to update the URL values.
 
 ### Quick start
 

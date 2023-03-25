@@ -1,22 +1,18 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { TransactionEntity } from './transaction.entity';
-import { CreateTransactionInput } from './dto/create-transaction-input.dto';
-import { ethers } from 'ethers';
+import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common';
 import Web3 from 'web3';
 import { config } from '../config';
-import { CHAIN } from '../common/chain';
+import { CHAIN, CHAIN_ID } from '../common/chain';
+import { TransactionService } from '../transactions/transaction.service';
 
 @Injectable()
 export class Web3ProviderService {
   private readonly logger: Logger;
   private readonly provider;
-  private readonly eventInterfaceTwoIndexed: ethers.utils.Interface;
-  private readonly eventInterfaceThreeIndexed: ethers.utils.Interface;
-  private readonly eventFilters: any;
 
-  constructor(@InjectRepository(TransactionEntity) private transactionEntity: Repository<TransactionEntity>) {
+  constructor(
+    @Inject(forwardRef(() => TransactionService))
+    private readonly txService: TransactionService,
+  ) {
     this.logger = new Logger(Web3ProviderService.name);
     this.provider = new Web3(new Web3.providers.WebsocketProvider(config().ethNode.wsUrl));
 
@@ -29,16 +25,12 @@ export class Web3ProviderService {
   async initSync(): Promise<void> {
     this.logger.log('Initialize syncing of transactions');
 
-    const queryResult = await this.transactionEntity
-      .createQueryBuilder('transaction')
-      .select('MAX(transaction.blockNumber)', 'maxBlockNumber')
-      .getRawOne();
-    let maxBlockNumberInDB = queryResult.maxBlockNumber;
+    let maxBlockNumberInDB = await this.txService.getMaxBlockStored();
     const latestBlockNumber = await this.provider.eth.getBlockNumber();
 
     if (!maxBlockNumberInDB) {
       // NOTE: if there is no maxBlock from the DB, it means a clean startup on empty DB,
-      // so just sync from 100 blocks back
+      // so for the current scope just sync from 100 blocks back
       maxBlockNumberInDB = latestBlockNumber - 100;
     }
 
@@ -74,7 +66,7 @@ export class Web3ProviderService {
 
     // TODO: could improve the storing of tx's in DB by doing a batch-insert
     for (const tx of blockData.transactions) {
-      await this.create({
+      await this.txService.create({
         hash: tx.hash,
         index: tx.transactionIndex,
         fromAddress: tx.from,
@@ -98,44 +90,16 @@ export class Web3ProviderService {
    */
   private getChainName(chainId: string): CHAIN {
     switch (chainId) {
-      case '0x1':
+      case CHAIN_ID.ETHEREUM:
         return CHAIN.ETHEREUM;
+      case CHAIN_ID.POLYGON:
+        return CHAIN.POLYGON;
+      case CHAIN_ID.GOERLI:
+        return CHAIN.GOERLI;
+      case CHAIN_ID.MUMBAI:
+        return CHAIN.MUMBAI;
       default:
-        return CHAIN.ETHEREUM;
+        return null;
     }
-  }
-
-  /**
-   * Creates a new transaction record in the DB
-   * @param {CreateTransactionInput}  dto
-   * @return  {Promise<TransactionEntity>}
-   */
-  async create(dto: CreateTransactionInput): Promise<TransactionEntity> {
-    return this.transactionEntity
-      .create({
-        hash: dto.hash,
-        index: dto.index,
-        fromAddress: dto.fromAddress,
-        toAddress: dto.toAddress,
-        value: dto.value,
-        input: dto.input,
-        blockNumber: dto.blockNumber,
-        blockHash: dto.blockHash,
-        chain: dto.chain,
-        gas: dto.gas,
-        gasPrice: dto.gasPrice,
-        nonce: dto.nonce,
-      })
-      .save();
-  }
-
-  /**
-   * Return the events for a given block, stored in the DB
-   * @param {number}  block
-   * @return  {Promise<TransactionEntity[]>}
-   */
-  async getTxsFromBlock(block: number): Promise<TransactionEntity[]> {
-    this.logger.log(`Getting transactions for block ${block}`);
-    return this.transactionEntity.find({ where: { blockNumber: block } });
   }
 }
