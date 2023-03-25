@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { TransactionEntity } from './transaction.entity';
 import { CreateTransactionInput } from './dto/create-transaction-input.dto';
 import { CHAIN } from '../common/chain';
+import { TxsForAddressAndChainResult } from './types';
 
 @Injectable()
 export class TransactionService {
@@ -53,6 +54,33 @@ export class TransactionService {
         nonce: dto.nonce,
       })
       .save();
+  }
+
+  /**
+   * Get the txs for multiple addresses across multiple chains, from the stored txs in the DB
+   *
+   * @param {string[]}  addresses
+   * @param {CHAIN[]}   chains
+   */
+  async getTxsForAddressAndChain(
+    addresses: string[],
+    chains: CHAIN[],
+  ): Promise<TxsForAddressAndChainResult> {
+    const response = {};
+    for (const address of addresses) {
+      response[address] = {};
+
+      for (const chain of chains) {
+        response[address][chain] = await this.transactionEntity.find({
+          where: {
+            fromAddress: address,
+            chain,
+          },
+        });
+      }
+    }
+
+    return response;
   }
 
   /**
