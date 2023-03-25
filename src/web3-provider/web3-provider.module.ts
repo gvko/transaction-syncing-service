@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { EventEntity } from './event.entity';
-import { EventController } from './event.controller';
+import { TransactionEntity } from './transaction.entity';
+import { TransactionController } from './transaction.controller';
 import { Web3ProviderService } from './web3-provider.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([EventEntity])],
-  providers: [EventController, Web3ProviderService],
+  imports: [TypeOrmModule.forFeature([TransactionEntity])],
+  providers: [TransactionController, Web3ProviderService],
   exports: [Web3ProviderService],
 })
 export class Web3ProviderModule {

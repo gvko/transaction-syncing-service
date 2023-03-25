@@ -1,0 +1,5 @@
+export enum CHAIN {
+  ETHEREUM = 'ETHEREUM',
+  POLYGON = 'POLYGON',
+  BINANCE = 'BSC',
+}
