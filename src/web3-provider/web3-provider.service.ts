@@ -33,8 +33,14 @@ export class Web3ProviderService {
       .createQueryBuilder('transaction')
       .select('MAX(transaction.blockNumber)', 'maxBlockNumber')
       .getRawOne();
-    const maxBlockNumberInDB = queryResult.maxBlockNumber;
+    let maxBlockNumberInDB = queryResult.maxBlockNumber;
     const latestBlockNumber = await this.provider.eth.getBlockNumber();
+
+    if (!maxBlockNumberInDB) {
+      // NOTE: if there is no maxBlock from the DB, it means a clean startup on empty DB,
+      // so just sync from 100 blocks back
+      maxBlockNumberInDB = latestBlockNumber - 100;
+    }
 
     if (maxBlockNumberInDB < latestBlockNumber) {
       this.logger.log(

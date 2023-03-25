@@ -16,14 +16,14 @@ export class TransactionEntity extends BaseEntity {
   @Column('varchar')
   hash: string;
 
-  @Column('integer')
-  index: number;
+  @Column({ type: 'integer', nullable: true })
+  index?: number;
 
   @Column({ type: 'varchar', name: 'from_address' })
   fromAddress: string;
 
-  @Column({ type: 'varchar', name: 'to_address' })
-  toAddress: string;
+  @Column({ type: 'varchar', name: 'to_address', nullable: true })
+  toAddress?: string;
 
   @Column('varchar')
   value: string;
@@ -31,18 +31,19 @@ export class TransactionEntity extends BaseEntity {
   @Column('varchar')
   input: string;
 
-  @Column({ type: 'integer', name: 'block_number' })
-  blockNumber: number;
+  @Column({ type: 'integer', name: 'block_number', nullable: true })
+  blockNumber?: number;
 
-  @Column({ type: 'varchar', name: 'block_hash' })
-  blockHash: string;
+  @Column({ type: 'varchar', name: 'block_hash', nullable: true })
+  blockHash?: string;
 
   @Column({
     type: 'enum',
     enum: [Object.values(CHAIN)],
     name: 'chain',
+    nullable: true,
   })
-  chain: string;
+  chain?: string;
 
   @Column('integer')
   gas: number;

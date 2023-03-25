@@ -17,8 +17,8 @@ services:
     container_name: backend
     depends_on:
       - db
-    networks:
-      - default
+#    networks:
+#      - default
 
   # PostgreSQL
   db:
@@ -32,10 +32,10 @@ services:
       POSTGRES_PASSWORD: rawr
       POSTGRES_DB: web3data
     container_name: web3data-db
-    networks:
-      - default
+#    networks:
+#      - default
 
-networks:
-  default:
-    external:
-      name: transaction-syncing-service_default
+#networks:
+#  default:
+#    external:
+#      name: transaction-syncing-service_default
