@@ -81,9 +81,9 @@ export class Web3ProviderService {
     const blockData = await provider.eth.getBlock(blockNumber, true);
 
     // TODO: could implement a more sophisticated mechanism of populating transactions from past blocks,
-    //  instead of just starting from the last block
+    //  instead of just starting from the biggest stored block
 
-    // TODO: could improve the storing of tx's in DB by doing a batch-insert
+    // TODO: could improve the storing of txs in DB by doing a batch-insert
     for (const tx of blockData.transactions) {
       await this.txService.create({
         hash: tx.hash,
@@ -105,13 +105,10 @@ export class Web3ProviderService {
   async indexTxsForAddress(chain: CHAIN, address: string): Promise<void> {
     const provider = chain === CHAIN.ETHEREUM ? this.providerEth : this.providerPolygon;
 
-    const pastTxs = await provider.eth.getPastTransactions({
-      fromBlock: 0,
-      toBlock: 'latest',
-      address: address,
-    });
+    // TODO: since simple transactions are NOT indexed, we can iterate over blocks
+    //  (from genesis to latest or in a given range of blocks) and check whether they contain
+    //  transactions for the given address
 
-    console.log(pastTxs);
     // TODO: subscribe to listen to incoming txs
 
     // TODO: logic to stop listening to this address
