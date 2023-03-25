@@ -1,4 +1,6 @@
-## Task Considerations & Assumptions
+## Task Design, Considerations & Assumptions
+See [NOTES.md](./NOTES.md)
+
 
 ## Prerequisites to run the app
 
@@ -16,14 +18,14 @@ docker-compose up
 
 And that's it.
 
-This command will prepare and run everything needed:
+This command will prepare docker containers and run everything needed:
 
 * build the API server image
 * start its container
 * start the DB container
 * run the DB migrations to create the needed tables
 
-The events sync will start the moment the server is up and running.
+The transactions sync will start the moment the server is up and running.
 
 ### Manual start
 
@@ -48,10 +50,7 @@ $ docker-compose up -d db
 #### Running the app
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
+$ npm start
 ```
+This will start the app locally in watch mode.
 
