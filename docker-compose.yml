@@ -30,12 +30,12 @@ services:
     environment:
       POSTGRES_USER: chewbacca
       POSTGRES_PASSWORD: rawr
-      POSTGRES_DB: coinshift
-    container_name: coinshift-db
+      POSTGRES_DB: web3data
+    container_name: web3data-db
     networks:
       - default
 
 networks:
   default:
     external:
-      name: coinshift_default
+      name: transaction-syncing-service_default

@@ -13,11 +13,11 @@ import { Web3ProviderModule } from './web3-provider/web3-provider.module';
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.NODE_ENV === 'docker-local' ? 'coinshift-db' : 'localhost',
+      host: process.env.NODE_ENV === 'docker-local' ? 'web3data-db' : 'localhost',
       port: 5432,
       username: 'chewbacca',
       password: 'rawr',
-      database: 'coinshift',
+      database: 'web3data',
       entities: ['dist/**/*.entity.js'],
       synchronize: false,
       migrations: ['dist/migrations/*{.ts,.js}'],
