@@ -1,7 +1,7 @@
 import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common';
 import Web3 from 'web3';
 import { config } from '../config';
-import { CHAIN, CHAIN_ID } from '../common/chain';
+import { CHAIN } from '../common/chain';
 import { TransactionService } from '../transactions/transaction.service';
 
 @Injectable()
@@ -99,26 +99,6 @@ export class Web3ProviderService {
         gasPrice: tx.gasPrice,
         nonce: tx.nonce,
       });
-    }
-  }
-
-  /**
-   * The raw tx objects have chain IDs, which we map to certain name, for better readability
-   * @param {string}  chainId
-   * @return {CHAIN}
-   */
-  private getChainName(chainId: string): CHAIN {
-    switch (chainId) {
-      case CHAIN_ID.ETHEREUM:
-        return CHAIN.ETHEREUM;
-      case CHAIN_ID.POLYGON:
-        return CHAIN.POLYGON;
-      case CHAIN_ID.GOERLI:
-        return CHAIN.GOERLI;
-      case CHAIN_ID.MUMBAI:
-        return CHAIN.MUMBAI;
-      default:
-        return null;
     }
   }
 }
