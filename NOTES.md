@@ -51,9 +51,13 @@ When it comes to indexing & tracking a given address and its
 transactions, I have skipped the implementation in the PoC service for
 this logic, based on certain considerations and the limited scope of
 the task. This logic can be approached in different ways. Since simple
-transactions are not indexed, we can iterate over blocks (from
-genesis to latest or in a given range of blocks) and check whether
-they contain transactions for the given address. The `hash` column in
+transactions are not indexed, we can either (1) iterate over blocks (from genesis to latest or in a given range of blocks) and check
+whether
+they contain transactions for the given address, (2) use some kind of
+an off-chain index (e.g. etherscan.io) or (3) build an indexer
+ourselves (which we kind of are doing right now).
+
+The `hash` column in
 the transactions table is unique, so when indexing txs for a given
 account, we can handle the scenario of duplicate txs and not store
 them.
