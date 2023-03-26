@@ -1,6 +1,6 @@
 import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common';
 import Web3 from 'web3';
-import { config } from '../config';
+import { config } from '../common/config';
 import { CHAIN } from '../common/chain';
 import { TransactionService } from '../transactions/transaction.service';
 
