@@ -13,13 +13,14 @@ See [NOTES.md](./NOTES.md)
 
 For production-like env run:
 ```bash
-docker-compose up
+npm run start:prod
 ```
 
 And that's it.
 
 This command will prepare docker containers and run everything needed:
 
+* compile the typescript files
 * build the API server image
 * start its container
 * start the DB container

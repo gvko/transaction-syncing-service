@@ -12,6 +12,7 @@ USER node
 WORKDIR /node/app
 
 COPY --chown=node:node package*.json ./
+COPY --chown=node:node dist ./
 RUN npm install --prod
 
 # Development
