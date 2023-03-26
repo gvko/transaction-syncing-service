@@ -11,7 +11,7 @@ See [NOTES.md](./NOTES.md)
 
 ### Quick start
 
-Run
+For production-like env run:
 ```bash
 docker-compose up
 ```
@@ -27,7 +27,7 @@ This command will prepare docker containers and run everything needed:
 
 The transactions sync will start the moment the server is up and running.
 
-### Manual start
+### Manual start (local dev env)
 
 #### Install
 
@@ -52,5 +52,6 @@ $ docker-compose up -d db
 ```bash
 $ npm start
 ```
-This will start the app locally in watch mode.
+This will start the app locally in watch mode (changes to the code
+will automatically trigger recompilation and restart of the app).
 
