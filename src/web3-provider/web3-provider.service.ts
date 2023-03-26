@@ -79,9 +79,12 @@ export class Web3ProviderService {
    */
   private async getAndStoreTxsForBlock(blockNumber: number, chain: CHAIN, provider): Promise<void> {
     const blockData = await provider.eth.getBlock(blockNumber, true);
+    if (!blockData || !blockData.transactions) {
+      this.logger.error(`[${chain}] Block or block transactions object is empty`);
+      return;
+    }
 
-    // TODO: could implement a more sophisticated mechanism of populating transactions from past blocks,
-    //  instead of just starting from the biggest stored block
+    // TODO: could implement a more sophisticated mechanism of populating transactions from past blocks
 
     // TODO: could improve the storing of txs in DB by doing a batch-insert
     for (const tx of blockData.transactions) {
@@ -108,6 +111,8 @@ export class Web3ProviderService {
     // TODO: since simple transactions are NOT indexed, we can iterate over blocks
     //  (from genesis to latest or in a given range of blocks) and check whether they contain
     //  transactions for the given address
+    //  The `hash` column in the transactions table is unique, so when indexing txs for a given account,
+    //  we can handle the scenario of duplicate txs and not store them.
 
     // TODO: subscribe to listen to incoming txs
 
